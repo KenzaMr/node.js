@@ -29,7 +29,9 @@ export function TodoList() {
       body: JSON.stringify({ title: texte }),
       headers: { "Content-type": "application/json" },
     });
-    const data = await reponse.json();
+    const newTodo = await reponse.json();
+    setListeTodo([...listeTodo, newTodo.todo]); // ...listeTodo = recupere l'ancien tableau puis on rajoute le nouveau
+    console.log(newTodo);
     return setmessage({ success: true, content: "Tâche ajoutée" });
   }
   return (
@@ -40,9 +42,11 @@ export function TodoList() {
         <p style={{ color: message.success ? "green" : "red" }}>
           {message.content}
         </p>
-        {listeTodo.map((element) => {
-          return <p>{element.title}</p>;
-        })}
+        <ul>
+          {listeTodo.map((element) => (
+        <li key={element._id}>{element.title} <button> Supprimer</button></li>
+          ))}
+        </ul>
       </div>
     </>
   );
@@ -59,3 +63,9 @@ export function TodoList() {
 //On utilise UseEffect la plupart du temps poour faire des requêtes HTTP, c'est effectuer une action aprés qu'on est rendu des composant
 // Stocker les liste de taches dans une variable d'état
 // Utiliser un boucle pour afficher chaque liste de taches
+
+// Exercice:
+// 1. Ajouter une bouton supprimer pour chaque tache
+// 2. Créer une fonction qui reçoit l'id de la tache
+// 3. Utiliser fetch pour envoyer une requete DELETE a la back end
+// 4. Lier cette fonction avec les bouton de chaque taches
